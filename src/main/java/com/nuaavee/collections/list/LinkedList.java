@@ -37,10 +37,7 @@ public class LinkedList<T> extends AbstractList<T> {
       listItem.next = listItem.prev = listItem;
       root = listItem;
     } else {
-      listItem.next = root;
-      listItem.prev = root.prev;
-      root.prev.next = listItem;
-      root.prev = listItem;
+      root.addBefore(listItem);
     }
     size++;
     modCount++;
@@ -54,13 +51,9 @@ public class LinkedList<T> extends AbstractList<T> {
       return add(item);
     }
     ListItem<T> listItem = getListItem(index);
-    ListItem<T> newListItem = new ListItem<T>(item);
-    newListItem.next = listItem;
-    newListItem.prev = listItem.prev;
-    listItem.prev.next = newListItem;
-    listItem.prev = newListItem;
+    listItem.addBefore(new ListItem<T>(item));
     if(index == 0) {
-      root = newListItem;
+      root = listItem.prev;
     }
     size++;
     modCount++;
@@ -72,8 +65,7 @@ public class LinkedList<T> extends AbstractList<T> {
   public T remove(int index) {
     checkIndex(index);
     ListItem<T> listItem = getListItem(index);
-    listItem.prev.next = listItem.next;
-    listItem.next.prev = listItem.prev;
+    listItem.remove();
     if (size == 1) {
       root = null;
     } else if (index == 0) {
@@ -118,5 +110,16 @@ public class LinkedList<T> extends AbstractList<T> {
       this.data = data;
     }
 
+    public void addBefore(ListItem<T> item) {
+      item.next = this;
+      item.prev = prev;
+      prev.next = item;
+      prev = item;
+    }
+
+    public void remove() {
+      prev.next = next;
+      next.prev = prev;
+    }
   }
 }
