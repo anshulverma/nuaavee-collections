@@ -2,6 +2,7 @@
 // This software is proprietary; use is subject to license terms.
 package com.nuaavee.collections.list;
 
+import com.sun.istack.internal.NotNull;
 import javax.annotation.Nullable;
 
 /**
@@ -21,6 +22,7 @@ public class LinkedList<T> extends AbstractList<T> {
     return getListItem(index).data;
   }
 
+  @NotNull
   private ListItem<T> getListItem(int index) {
     checkIndex(index);
     ListItem<T> cursor = root;
