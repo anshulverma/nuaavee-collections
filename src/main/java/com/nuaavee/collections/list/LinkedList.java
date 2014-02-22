@@ -5,7 +5,7 @@ package com.nuaavee.collections.list;
 import javax.annotation.Nullable;
 
 /**
- * A doubly linked list implementation of {@link List} interface.
+ * A doubly circular linked list implementation of {@link List} interface.
  *
  * @author Anshul Verma
  */
