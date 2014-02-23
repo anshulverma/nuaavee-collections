@@ -2,10 +2,9 @@ package com.nuaavee.collections.list;
 
 import com.nuaavee.collections.list.util.Lists;
 import com.nuaavee.collections.model.Book;
-import org.hamcrest.BaseMatcher;
-import org.hamcrest.Matcher;
-import org.hamcrest.Matchers;
 import org.junit.Test;
+import java.util.ConcurrentModificationException;
+import java.util.Iterator;
 import static com.nuaavee.collections.list.util.Lists.newLinkedList;
 import static org.hamcrest.Matchers.lessThan;
 import static org.junit.Assert.assertEquals;
@@ -57,7 +56,7 @@ public class LinkedListTest {
   public void testAddWithIndex() {
     Book book1 = new Book("Clean Code", "Robert C. Martin", 52, 431);
     Book book2 = new Book("Code Complete: A Practical Handbook of Software Construction", "Steve McConnell", 31, 467);
-    Book book3 = new Book("Code Complete: A Practical Handbook of Software Construction", "Steve McConnell", 31, 467);
+    Book book3 = new Book("Design Patterns: Elements of Reusable Object-Oriented Software", "Erich Gamma", 40, 536);
     List<Book> books = new LinkedList<>();
     assertTrue("should be able to add item at first index", books.add(book1, 0));
     assertTrue("should be able to add item at first index", books.add(book2, 0));
@@ -72,7 +71,7 @@ public class LinkedListTest {
   public void testAddWithIndexThrowsExceptionIfInvalidIndex() {
     Book book1 = new Book("Clean Code", "Robert C. Martin", 52, 431);
     Book book2 = new Book("Code Complete: A Practical Handbook of Software Construction", "Steve McConnell", 31, 467);
-    Book book3 = new Book("Code Complete: A Practical Handbook of Software Construction", "Steve McConnell", 31, 467);
+    Book book3 = new Book("Design Patterns: Elements of Reusable Object-Oriented Software", "Erich Gamma", 40, 536);
     Book book4 = new Book("UNIX Systems Programming: Communication, Concurrency and Threads", "Kay A. Robbins", 9, 763);
     List<Book> books = new LinkedList<>();
     try {
@@ -106,7 +105,7 @@ public class LinkedListTest {
   public void testGetItem() {
     Book book1 = new Book("Clean Code", "Robert C. Martin", 52, 431);
     Book book2 = new Book("Code Complete: A Practical Handbook of Software Construction", "Steve McConnell", 31, 467);
-    Book book3 = new Book("Code Complete: A Practical Handbook of Software Construction", "Steve McConnell", 31, 467);
+    Book book3 = new Book("Design Patterns: Elements of Reusable Object-Oriented Software", "Erich Gamma", 40, 536);
     List<Book> books = new LinkedList<>();
     assertTrue("should be able to add a element to list", books.add(book1));
     assertTrue("should be able to add a element to list", books.add(book2));
@@ -120,7 +119,7 @@ public class LinkedListTest {
   public void testRemoveItem() {
     Book book1 = new Book("Clean Code", "Robert C. Martin", 52, 431);
     Book book2 = new Book("Code Complete: A Practical Handbook of Software Construction", "Steve McConnell", 31, 467);
-    Book book3 = new Book("Code Complete: A Practical Handbook of Software Construction", "Steve McConnell", 31, 467);
+    Book book3 = new Book("Design Patterns: Elements of Reusable Object-Oriented Software", "Erich Gamma", 40, 536);
     List<Book> books = newLinkedList(book1, book2, book3);
     assertEquals("should be able to remove element by index", book2, books.remove(1));
     assertEquals(2, books.size());
@@ -133,7 +132,7 @@ public class LinkedListTest {
   public void testClear() {
     Book book1 = new Book("Clean Code", "Robert C. Martin", 52, 431);
     Book book2 = new Book("Code Complete: A Practical Handbook of Software Construction", "Steve McConnell", 31, 467);
-    Book book3 = new Book("Code Complete: A Practical Handbook of Software Construction", "Steve McConnell", 31, 467);
+    Book book3 = new Book("Design Patterns: Elements of Reusable Object-Oriented Software", "Erich Gamma", 40, 536);
     List<Book> myBooks = newLinkedList(book1, book2, book3);
     assertEquals(3, myBooks.size());
     assertTrue("should change the contents of the list", myBooks.clear());
@@ -145,7 +144,7 @@ public class LinkedListTest {
   public void testIndexOf() {
     Book book1 = new Book("Clean Code", "Robert C. Martin", 52, 431);
     Book book2 = new Book("Code Complete: A Practical Handbook of Software Construction", "Steve McConnell", 31, 467);
-    Book book3 = new Book("Code Complete: A Practical Handbook of Software Construction", "Steve McConnell", 31, 467);
+    Book book3 = new Book("Design Patterns: Elements of Reusable Object-Oriented Software", "Erich Gamma", 40, 536);
     List<Book> myBooks = newLinkedList(book1, book2, book3);
     assertEquals(3, myBooks.size());
     assertEquals("should return correct index if item exists", 1, myBooks.indexOf(book2));
@@ -157,7 +156,7 @@ public class LinkedListTest {
   public void testContains() {
     Book book1 = new Book("Clean Code", "Robert C. Martin", 52, 431);
     Book book2 = new Book("Code Complete: A Practical Handbook of Software Construction", "Steve McConnell", 31, 467);
-    Book book3 = new Book("Code Complete: A Practical Handbook of Software Construction", "Steve McConnell", 31, 467);
+    Book book3 = new Book("Design Patterns: Elements of Reusable Object-Oriented Software", "Erich Gamma", 40, 536);
     List<Book> myBooks = newLinkedList(book1, book2, book3);
     assertEquals(3, myBooks.size());
     assertTrue("should contain an item that exist in the list", myBooks.contains(book2));
@@ -169,7 +168,7 @@ public class LinkedListTest {
   public void testReplace() {
     Book book1 = new Book("Clean Code", "Robert C. Martin", 52, 431);
     Book book2 = new Book("Code Complete: A Practical Handbook of Software Construction", "Steve McConnell", 31, 467);
-    Book book3 = new Book("Code Complete: A Practical Handbook of Software Construction", "Steve McConnell", 31, 467);
+    Book book3 = new Book("Design Patterns: Elements of Reusable Object-Oriented Software", "Erich Gamma", 40, 536);
     Book book4 = new Book("UNIX Systems Programming: Communication, Concurrency and Threads", "Kay A. Robbins", 9, 763);
     List<Book> myBooks = newLinkedList(book1, book2, book3);
     assertEquals("should find item at correct index since it exists", 1, myBooks.indexOf(book2));
@@ -180,5 +179,103 @@ public class LinkedListTest {
       myBooks.replace(3, book2);
       fail("should throw IndexOutOfBoundsException");
     } catch (IndexOutOfBoundsException e) { }
+  }
+
+  @Test
+  public void testEquals() {
+    List<Book> myBooks1 = newLinkedList(
+        new Book("Clean Code", "Robert C. Martin", 52, 431),
+        new Book("The Pragmatic Programmer: From Journeyman to Master", "Andrew Hunt", 35, 650),
+        new Book("Design Patterns: Elements of Reusable Object-Oriented Software", "Erich Gamma", 40, 536),
+        new Book("Code Complete: A Practical Handbook of Software Construction", "Steve McConnell", 31, 467),
+        new Book("UNIX Systems Programming: Communication, Concurrency and Threads", "Kay A. Robbins", 61, 763));
+    List<Book> myBooks2 = newLinkedList(
+        new Book("Clean Code", "Robert C. Martin", 52, 431),
+        new Book("The Pragmatic Programmer: From Journeyman to Master", "Andrew Hunt", 35, 650),
+        new Book("Design Patterns: Elements of Reusable Object-Oriented Software", "Erich Gamma", 40, 536),
+        new Book("Code Complete: A Practical Handbook of Software Construction", "Steve McConnell", 31, 467),
+        new Book("UNIX Systems Programming: Communication, Concurrency and Threads", "Kay A. Robbins", 61, 763));
+    assertEquals("list should be equal because they have the same items even though they are not the same objects",
+        myBooks1, myBooks2);
+    assertEquals("nulls in the list should equate",
+        newLinkedList("one", null, "three"), newLinkedList("one", null, "three"));
+  }
+
+  @Test
+  public void testNotEquals() {
+    List<String> catNames = newLinkedList("kitty", "meow", "chunmun");
+    assertFalse("should not be equal to null", catNames.equals(null));
+    assertFalse("should not be equal if contents differ", catNames.equals(newLinkedList("sher")));
+  }
+
+  @Test
+  public void testIterator() {
+    List<Book> myBooks = newLinkedList(
+        new Book("Clean Code", "Robert C. Martin", 52, 431),
+        new Book("The Pragmatic Programmer: From Journeyman to Master", "Andrew Hunt", 35, 650),
+        new Book("UNIX Systems Programming: Communication, Concurrency and Threads", "Kay A. Robbins", 61, 763));
+    List<String> bookTitles = newLinkedList();
+    for (Book book : myBooks) {
+      bookTitles.add(book.getTitle());
+    }
+    assertEquals("iterator should have iterated over all elements in sequence of addition",
+        newLinkedList("Clean Code", "The Pragmatic Programmer: From Journeyman to Master",
+            "UNIX Systems Programming: Communication, Concurrency and Threads"), bookTitles);
+  }
+
+  @Test
+  public void testIteratorRemove() {
+    List<Book> myBooks = newLinkedList(
+        new Book("Clean Code", "Robert C. Martin", 52, 431),
+        new Book("The Pragmatic Programmer: From Journeyman to Master", "Andrew Hunt", 35, 650),
+        null,
+        new Book("Code Complete: A Practical Handbook of Software Construction", "Steve McConnell", 31, 467),
+        new Book("UNIX Systems Programming: Communication, Concurrency and Threads", "Kay A. Robbins", 61, 763));
+    Iterator<Book> bookIterator = myBooks.iterator();
+    try {
+      bookIterator.remove();
+      fail("should throw IllegalStateException");
+    } catch (IllegalStateException e) { }
+    assertTrue("should have next element", bookIterator.hasNext());
+    assertEquals("next() should be equal to the first element", new Book("Clean Code", "Robert C. Martin", 52, 431),
+        bookIterator.next());
+    bookIterator.remove();
+    try {
+      bookIterator.remove();
+      fail("should not be able to call remove twice");
+    } catch (IllegalStateException e) { }
+    assertEquals("size should have reduced by one", 4, myBooks.size());
+    assertEquals("second element should have moved to first index",
+        new Book("The Pragmatic Programmer: From Journeyman to Master", "Andrew Hunt", 35, 650), myBooks.get(0));
+    assertTrue("there should be more elements in the list", bookIterator.hasNext());
+    assertEquals("next() should also return the second element now",
+        new Book("The Pragmatic Programmer: From Journeyman to Master", "Andrew Hunt", 35, 650), bookIterator.next());
+    assertEquals("null values should also be returned", null, bookIterator.next());
+  }
+
+  @Test
+  public void testIteratorOnEmptyList() {
+    Iterator<String> iterator = Lists.<String> newLinkedList().iterator();
+    assertFalse("there should be no elements in empty iterator", iterator.hasNext());
+  }
+
+  @Test
+  public void testCannotModifyListWhileIterating() {
+    List<String> catNames = newLinkedList("kitty", "meow", "chunmun");
+    Iterator<String> catNameIterator = catNames.iterator();
+    assertEquals("should be able to call next since the list is not modified", "kitty", catNameIterator.next());
+    catNames.add("sher");
+    try {
+      catNameIterator.hasNext();
+      fail("hasNext() should throw ConcurrentModificationException");
+    } catch (ConcurrentModificationException e) { }
+    try {
+      catNameIterator.next();
+      fail("next() should throw ConcurrentModificationException");
+    } catch (ConcurrentModificationException e) { }
+    try {
+      catNameIterator.remove();
+      fail("remove() should throw ConcurrentModificationException");
+    } catch (ConcurrentModificationException e) { }
   }
 }

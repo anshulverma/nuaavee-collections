@@ -57,11 +57,85 @@ public abstract class AbstractList<T> implements List<T> {
     return true;
   }
 
+  /**
+   * Returns <code>true</code> by comparing the other object in following steps:
+   * <ol>
+   *   <li>
+   *     <code>obj</code> must extend from {@link List} interface.
+   *   </li>
+   *   <li>
+   *     The size of both lists should match.
+   *   </li>
+   *   <li>
+   *     Tee <code>equals()</code> method of every element must return true for
+   *     every element in the other list at the same index. The only time this may not
+   *     be true if both elements are <code>null</code>.
+   *   </li>
+   * </ol>
+   * @param obj The object to test against.
+   * @return <code>true</code> If the two lists are equal, <code>false</code> otherwise.
+   */
   @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    }
+
+    if (!(obj instanceof List)) {
+      return false;
+    }
+
+    List other = (List) obj;
+    if (size() != other.size()) {
+      return false;
+    }
+
+    Iterator<T> it1 = iterator();
+    Iterator it2 = other.iterator();
+    while (it1.hasNext() && it2.hasNext()) {
+      T o1 = it1.next();
+      Object o2 = it2.next();
+      if (!(o1 == null ? o2 == null : o1.equals(o2))) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  /**
+   * Iterates through all elements and calls <code>toString()</code> of each
+   * of them to build a concatenated string.
+   * @return A concatenated string containing string representations of all elements.
+   */
+  @Override
+  public String toString() {
+    if (isEmpty()) {
+      return "[ ]";
+    }
+
+    StringBuilder str = new StringBuilder("[ ");
+    Iterator<T> iterator = iterator();
+    while (iterator.hasNext()) {
+      T item = iterator.next();
+      if (this == item) {
+        str.append("(this list)");
+      } else {
+        str.append(item);
+      }
+      if (iterator.hasNext()) {
+        str.append(", ");
+      }
+    }
+    return str.append(" ]").toString();
+  }
+
+  @Override
+  @SuppressWarnings("unchecked")
   public Iterator<T> iterator() {
     return new Itr();
   }
 
+  @SuppressWarnings("unchecked")
   public ListIterator<T> listIterator() {
     return new ListItr();
   }
