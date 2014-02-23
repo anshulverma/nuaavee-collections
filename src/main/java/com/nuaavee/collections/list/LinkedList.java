@@ -1,5 +1,3 @@
-// Copyright 2003-2014 Adobe Systems Inc. All Rights Reserved.
-// This software is proprietary; use is subject to license terms.
 package com.nuaavee.collections.list;
 
 import javax.annotation.Nullable;
