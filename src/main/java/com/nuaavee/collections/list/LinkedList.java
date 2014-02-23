@@ -2,7 +2,6 @@
 // This software is proprietary; use is subject to license terms.
 package com.nuaavee.collections.list;
 
-import com.sun.istack.internal.NotNull;
 import javax.annotation.Nullable;
 
 /**
@@ -14,15 +13,13 @@ public class LinkedList<T> extends AbstractList<T> {
 
   private ListItem<T> root = null;
 
-  private int size;
+  private int size = 0;
 
-  @Nullable
   @Override
   public T get(int index) {
     return getListItem(index).data;
   }
 
-  @NotNull
   private ListItem<T> getListItem(int index) {
     checkIndex(index);
     ListItem<T> cursor = root;
@@ -62,7 +59,6 @@ public class LinkedList<T> extends AbstractList<T> {
     return true;
   }
 
-  @Nullable
   @Override
   public T remove(int index) {
     checkIndex(index);
@@ -76,6 +72,17 @@ public class LinkedList<T> extends AbstractList<T> {
     size--;
     modCount++;
     return listItem.data;
+  }
+
+  @Override
+  public boolean clear() {
+    if (size == 0) {
+      return false;
+    }
+    root = null;
+    size = 0;
+    modCount++;
+    return true;
   }
 
   private void checkIndex(int index) {
@@ -94,12 +101,17 @@ public class LinkedList<T> extends AbstractList<T> {
   }
 
   @Override
-  public T replace(T item, int index) {
+  public T replace(int index, T item) {
     ListItem<T> listItem = getListItem(index);
     T original = listItem.data;
     listItem.data = item;
     modCount++;
     return original;
+  }
+
+  @Override
+  public boolean isEmpty() {
+    return size == 0;
   }
 
   private class ListItem<T> {

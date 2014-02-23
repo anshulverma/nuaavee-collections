@@ -6,6 +6,7 @@ import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.ListIterator;
 import java.util.NoSuchElementException;
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 /**
@@ -14,6 +15,15 @@ import javax.annotation.Nullable;
 public abstract class AbstractList<T> implements List<T> {
 
   protected int modCount = 0;
+
+  @Override
+  public boolean addAll(@Nonnull List<T> items) {
+    int addModCount = modCount;
+    for (T item : items) {
+      add(item);
+    }
+    return modCount != addModCount;
+  }
 
   @Override
   public int indexOf(@Nullable T item) {
@@ -32,6 +42,21 @@ public abstract class AbstractList<T> implements List<T> {
       }
     }
     return -1;
+  }
+
+  @Override
+  public boolean contains(@Nullable T item) {
+    return indexOf(item) >= 0;
+  }
+
+  @Override
+  public boolean remove(T item) {
+    int index = indexOf(item);
+    if (index < 0) {
+      return false;
+    }
+    remove(index);
+    return true;
   }
 
   @Override
@@ -55,7 +80,6 @@ public abstract class AbstractList<T> implements List<T> {
     }
 
     @Override
-    @Nullable
     public T next() {
       checkForModification();
       try {
@@ -96,7 +120,6 @@ public abstract class AbstractList<T> implements List<T> {
     }
 
     @Override
-    @Nullable
     public T previous() {
       checkForModification();
       try {
@@ -127,7 +150,7 @@ public abstract class AbstractList<T> implements List<T> {
         throw new IllegalStateException();
       }
       checkForModification();
-      AbstractList.this.replace(item, position);
+      AbstractList.this.replace(position, item);
       itModCount = modCount;
     }
 
