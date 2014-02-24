@@ -7,10 +7,10 @@ import com.nuaavee.collections.list.util.Lists;
 /**
  * @author Anshul Verma
  */
-public class LinkedListTest extends AbstractListTest {
+public class ArrayListTest extends AbstractListTest {
 
   @Override
   protected <T> List<T> newList(T... items) {
-    return Lists.newLinkedList(items);
+    return Lists.newArrayList(items);
   }
 }

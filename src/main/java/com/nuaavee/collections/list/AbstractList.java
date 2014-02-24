@@ -57,6 +57,11 @@ public abstract class AbstractList<T> implements List<T> {
     return true;
   }
 
+  @Override
+  public boolean isEmpty() {
+    return size() == 0;
+  }
+
   /**
    * Returns <code>true</code> by comparing the other object in following steps:
    * <ol>
@@ -138,6 +143,20 @@ public abstract class AbstractList<T> implements List<T> {
   @SuppressWarnings("unchecked")
   public ListIterator<T> listIterator() {
     return new ListItr();
+  }
+
+  protected void checkIndex(int index) {
+    checkIndex(index, size());
+  }
+
+  protected void checkIndexForAdd(int index) {
+    checkIndex(index, size() + 1);
+  }
+
+  private void checkIndex(int index, int size) {
+    if (index < 0 || index >= size) {
+      throw new IndexOutOfBoundsException();
+    }
   }
 
   private class Itr implements Iterator<T> {

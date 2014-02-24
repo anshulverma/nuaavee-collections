@@ -43,7 +43,7 @@ public class LinkedList<T> extends AbstractList<T> {
 
   @Override
   public boolean add(@Nullable T item, int index) {
-    checkIndex(index, size + 1);
+    checkIndexForAdd(index);
     if (root == null || index == size) {
       return add(item);
     }
@@ -83,16 +83,6 @@ public class LinkedList<T> extends AbstractList<T> {
     return true;
   }
 
-  private void checkIndex(int index) {
-    checkIndex(index, size);
-  }
-
-  private void checkIndex(int index, int size) {
-    if (index < 0 || index >= size) {
-      throw new IndexOutOfBoundsException();
-    }
-  }
-
   @Override
   public int size() {
     return size;
@@ -105,11 +95,6 @@ public class LinkedList<T> extends AbstractList<T> {
     listItem.data = item;
     modCount++;
     return original;
-  }
-
-  @Override
-  public boolean isEmpty() {
-    return size == 0;
   }
 
   private class ListItem<T> {
